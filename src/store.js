@@ -1,7 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userLoginReducer, userRegisterReducer } from './reducers/userReducers';
+import {
+  userLoginReducer,
+  userProfileDeleteReducer,
+  userProfileReducer,
+  userProfileUpdateReducer,
+  userRegisterReducer,
+} from './reducers/userReducers';
 import {
   projectListReducer,
   projectCreateReducer,
@@ -16,6 +22,9 @@ const reducer = combineReducers({
   projectCreate: projectCreateReducer,
   projectUpdate: projectUpdateReducer,
   projectDelete: projectDeleteReducer,
+  userProfile: userProfileReducer,
+  userProfileUpdate: userProfileUpdateReducer,
+  userProfileDelete: userProfileDeleteReducer,
 });
 
 const middleware = [thunk];

@@ -12,7 +12,6 @@ import {
   PROJECT_DELETE_REQUEST,
   PROJECT_DELETE_SUCCESS,
   PROJECT_DELETE_FAIL,
-  PROJECT_DELETE_RESET,
 } from '../constants/projectConstants';
 import { URL } from '../config';
 

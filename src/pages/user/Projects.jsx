@@ -16,10 +16,11 @@ const Projects = () => {
   const [createButtonModal, setCreateButtonModal] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { enqueueSnackbar } = useSnackbar();
   const { userInfo } = userLogin;
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const projectList = useSelector((state) => state.projectList);
   const { loading, error, projects, success } = projectList;
@@ -79,7 +80,7 @@ const Projects = () => {
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
-      {loading ? (
+      {loading || createLoading ? (
         <Loader />
       ) : error ? (
         <span>Something went wrong...</span>

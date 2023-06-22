@@ -121,7 +121,7 @@ const DropdownDetails = ({ item }) => {
             handleClick={updateButtonHandler}
           />
           <Button
-            text={'Add Project'}
+            text={'Add Product'}
             icon={<AddProjectIcon />}
             disable={!item.premium && item.length < 3}
           />
@@ -168,6 +168,7 @@ const DropdownDetails = ({ item }) => {
                   handleSubmit,
                   touched,
                   values,
+                  dirty,
                 }) => (
                   <form
                     onSubmit={handleSubmit}
@@ -214,7 +215,7 @@ const DropdownDetails = ({ item }) => {
 
                     <div className="w-full text-center">
                       <button
-                        disabled={loading}
+                        disabled={loading || !dirty}
                         type="submit"
                         className="py-1 border border-black px-6"
                       >
