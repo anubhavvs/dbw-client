@@ -6,6 +6,13 @@ import {
   PROJECT_CREATE_REQUEST,
   PROJECT_CREATE_SUCCESS,
   PROJECT_CREATE_FAIL,
+  PROJECT_UPDATE_REQUEST,
+  PROJECT_UPDATE_SUCCESS,
+  PROJECT_UPDATE_FAIL,
+  PROJECT_DELETE_REQUEST,
+  PROJECT_DELETE_SUCCESS,
+  PROJECT_DELETE_FAIL,
+  PROJECT_DELETE_RESET,
 } from '../constants/projectConstants';
 import { URL } from '../config';
 
@@ -77,3 +84,70 @@ export const createProject =
       });
     }
   };
+
+export const updateProject = (project) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PROJECT_UPDATE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(
+      `${URL}/project/${project._id}`,
+      project,
+      config
+    );
+
+    dispatch({
+      type: PROJECT_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROJECT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const deleteProject = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PROJECT_DELETE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`${URL}/project/${id}`, config);
+
+    dispatch({
+      type: PROJECT_DELETE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROJECT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

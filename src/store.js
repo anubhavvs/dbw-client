@@ -5,6 +5,8 @@ import { userLoginReducer, userRegisterReducer } from './reducers/userReducers';
 import {
   projectListReducer,
   projectCreateReducer,
+  projectUpdateReducer,
+  projectDeleteReducer,
 } from './reducers/projectReducers';
 
 const reducer = combineReducers({
@@ -12,6 +14,8 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   projectList: projectListReducer,
   projectCreate: projectCreateReducer,
+  projectUpdate: projectUpdateReducer,
+  projectDelete: projectDeleteReducer,
 });
 
 const middleware = [thunk];

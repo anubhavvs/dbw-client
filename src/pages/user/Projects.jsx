@@ -71,10 +71,10 @@ const Projects = () => {
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required('Name is required')
-      .max(15, 'Cannot be more than 20 charecters'),
+      .max(30, 'Cannot be more than 20 charecters'),
     description: Yup.string()
       .required('Description is required')
-      .max(40, 'Cannot be more than 40 charecters'),
+      .max(50, 'Cannot be more than 40 charecters'),
   });
 
   return (
@@ -89,12 +89,12 @@ const Projects = () => {
             <span className="text-[2rem]">Your Projects</span>
             <Button
               text={'Create Project'}
-              disable={userInfo && !userInfo.premium}
+              disable={projects?.length == 1 && !userInfo.premium}
               icon={<AddIcon />}
               handleClick={createButtonHandler}
             />
           </div>
-          {projects.length > 0 ? (
+          {projects?.length > 0 ? (
             <div className="grid grid-cols-1 mt-5 gap-4 pb-10">
               {projects.map((item) => (
                 <ProjectItem item={item} key={item._id} />

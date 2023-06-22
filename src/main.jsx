@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         vertical: 'bottom',
         horizontal: 'right',
       }}
-      autoHideDuration={1000}
+      autoHideDuration={4000}
     >
       <RouterProvider router={routes}>
         <App />
