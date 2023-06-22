@@ -21,7 +21,7 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
-      enqueueSnackbar('Logged in successfully.', 'success');
+      handleClick('success', 'Logged in successfully.');
       navigate('/app/welcome');
     }
     if (error) {
@@ -67,6 +67,7 @@ const Login = () => {
               <div className="flex flex-col justify-center">
                 <input
                   label="Email Address"
+                  placeholder="Email Address"
                   name="email"
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -86,12 +87,13 @@ const Login = () => {
                 <input
                   label="Password"
                   name="password"
+                  placeholder="Password"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   type="password"
                   value={values.password}
                   autoComplete="off"
-                  className="py-2 text-[1.1rem] outline-none"
+                  className="py-2 text-[1.1rem] outline-none px-2"
                 />
                 <span className="text-red-500 h-[8px]">
                   {touched.password && errors.password}

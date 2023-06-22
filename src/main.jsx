@@ -9,7 +9,14 @@ import store from './store.js';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider
+      maxSnack={3}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+      autoHideDuration={1000}
+    >
       <RouterProvider router={routes}>
         <App />
       </RouterProvider>

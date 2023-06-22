@@ -23,7 +23,7 @@ const DashboardLayout = () => {
       <div className="flex h-full">
         <Sidebar />
         <div className="w-[80%]">
-          <div className="flex-grow h-full">
+          <div className="flex flex-col h-full">
             <Header />
             <Outlet />
           </div>

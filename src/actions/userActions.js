@@ -10,6 +10,8 @@ import {
   USER_REGISTER_FAIL,
 } from '../constants/userConstants';
 
+import { PROJECT_LIST_RESET } from '../constants/projectConstants';
+
 export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
@@ -48,6 +50,7 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: PROJECT_LIST_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
