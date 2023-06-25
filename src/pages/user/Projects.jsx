@@ -43,7 +43,7 @@ const Projects = () => {
   useEffect(() => {
     if (userInfo) {
       if (userInfo.isAdmin) {
-        navigate('/app/welcome', { replace: true });
+        navigate('/app/dashboard', { replace: true });
       }
       dispatch(listProjects());
     } else {

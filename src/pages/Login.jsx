@@ -22,7 +22,7 @@ const Login = () => {
   useEffect(() => {
     if (userInfo) {
       handleClick('success', 'Logged in successfully.');
-      navigate('/app/welcome');
+      navigate('/app/dashboard');
     }
     if (error) {
       handleClick('error', error);

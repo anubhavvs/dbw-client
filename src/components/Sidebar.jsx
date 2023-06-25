@@ -7,10 +7,13 @@ import ProjectLogo from '../assets/project.svg';
 import AccountLogo from '../assets/account.svg';
 import UsersLogo from '../assets/users.svg';
 import LogsLogo from '../assets/logs.svg';
+import DashboardIcon from '../assets/dashboard.svg';
+import PremiumIcon from '../assets/premium.svg';
 
 const userItems = [
-  { id: 1, href: '/app/projects', name: 'Projects', icon: <ProjectLogo /> },
-  { id: 2, href: '/app/account', name: 'Account', icon: <AccountLogo /> },
+  { id: 1, href: '/app/dashboard', name: 'Dashboard', icon: <DashboardIcon /> },
+  { id: 2, href: '/app/projects', name: 'Projects', icon: <ProjectLogo /> },
+  { id: 3, href: '/app/account', name: 'Account', icon: <AccountLogo /> },
 ];
 
 const adminItems = [
@@ -32,7 +35,7 @@ const SidebarItems = ({ href, name, icon }) => {
   return (
     <NavLink to={href}>
       <div
-        className={`flex flex-row justify-center py-4 cursor-pointer space-x-4 items-center ${
+        className={`flex flex-row justify-center py-4 cursor-pointer space-x-4 items-center rounded-3xl ${
           active ? 'bg-[#cdcfd3]' : ''
         }`}
       >
@@ -69,6 +72,14 @@ const Sidebar = () => {
             />
           </div>
           <span className="text-[1.3rem]">{userInfo?.name}</span>
+          {!userInfo?.isAdmin && (
+            <div className="flex flex-row justify-center space-x-2 mt-1 items-top">
+              {userInfo?.premium ? (
+                <img src={(<PremiumIcon />).type} className="w-5 h-5" />
+              ) : null}
+              <span>{userInfo?.premium ? 'Premium' : 'Free'}</span>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col px-10 text-center h-full mt-16 space-y-4">
@@ -83,7 +94,7 @@ const Sidebar = () => {
         </div>
 
         <div>
-          <button className="underline" onClick={() => logoutHandler()}>
+          <button className="underline text-lg" onClick={() => logoutHandler()}>
             Log out
           </button>
         </div>

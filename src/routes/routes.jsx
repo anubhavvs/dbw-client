@@ -20,7 +20,7 @@ const routes = createBrowserRouter([
       { path: 'account', element: <Account /> },
       { path: 'logs', element: <Logs /> },
       { path: 'users', element: <Users /> },
-      { path: 'welcome', element: <Dashboard /> },
+      { path: 'dashboard', element: <Dashboard /> },
     ],
   },
   {
