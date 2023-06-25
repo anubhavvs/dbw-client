@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.18.1",
     "axios": "^1.4.0",
     "formik": "^2.4.2",
     "moment": "^2.29.4",
@@ -19,6 +20,7 @@
     "react-helmet": "^6.1.0",
     "react-redux": "^8.1.0",
     "react-router-dom": "^6.13.0",
+    "react-tooltip": "^5.15.0",
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",

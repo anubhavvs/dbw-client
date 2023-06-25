@@ -11,7 +11,7 @@ const Button = ({
     <button
       id={id}
       type={type}
-      className={`flex flex-row items-center border py-1 ${
+      className={`flex flex-row items-center border py-2 h-fit ${
         disable ? 'bg-[#9f9fa1]' : 'bg-[#cdcfd3]'
       }  px-3 space-x-2 rounded-xl`}
       disabled={disable}

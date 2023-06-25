@@ -12,6 +12,9 @@ import {
   PROJECT_DELETE_REQUEST,
   PROJECT_DELETE_SUCCESS,
   PROJECT_DELETE_FAIL,
+  PROJECT_DETAIL_REQUEST,
+  PROJECT_DETAIL_SUCCESS,
+  PROJECT_DETAIL_FAIL,
 } from '../constants/projectConstants';
 import { URL } from '../config';
 
@@ -143,6 +146,37 @@ export const deleteProject = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PROJECT_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getProjectDetail = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PROJECT_DETAIL_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`${URL}/project/${id}`, config);
+
+    dispatch({
+      type: PROJECT_DETAIL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROJECT_DETAIL_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

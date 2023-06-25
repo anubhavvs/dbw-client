@@ -15,6 +15,10 @@ import {
   PROJECT_DELETE_SUCCESS,
   PROJECT_DELETE_FAIL,
   PROJECT_DELETE_RESET,
+  PROJECT_DETAIL_REQUEST,
+  PROJECT_DETAIL_SUCCESS,
+  PROJECT_DETAIL_FAIL,
+  PROJECT_DETAIL_RESET,
 } from '../constants/projectConstants';
 
 export const projectListReducer = (state = { projects: [] }, action) => {
@@ -22,7 +26,7 @@ export const projectListReducer = (state = { projects: [] }, action) => {
     case PROJECT_LIST_REQUEST:
       return { loading: true };
     case PROJECT_LIST_SUCCESS:
-      return { loading: false, projects: action.payload, success: true };
+      return { loading: false, projects: action.payload };
     case PROJECT_LIST_FAIL:
       return { loading: false, error: action.payload };
     case PROJECT_LIST_RESET:
@@ -47,7 +51,7 @@ export const projectCreateReducer = (state = {}, action) => {
   }
 };
 
-export const projectUpdateReducer = (state = { product: {} }, action) => {
+export const projectUpdateReducer = (state = { project: {} }, action) => {
   switch (action.type) {
     case PROJECT_UPDATE_REQUEST:
       return { loading: true };
@@ -71,6 +75,21 @@ export const projectDeleteReducer = (state = {}, action) => {
     case PROJECT_DELETE_FAIL:
       return { loading: false, error: action.payload };
     case PROJECT_DELETE_RESET:
+      return { project: {} };
+    default:
+      return state;
+  }
+};
+
+export const projectDetailReducer = (state = { project: {} }, action) => {
+  switch (action.type) {
+    case PROJECT_DETAIL_REQUEST:
+      return { ...state, loading: true };
+    case PROJECT_DETAIL_SUCCESS:
+      return { loading: false, project: action.payload };
+    case PROJECT_DETAIL_FAIL:
+      return { loading: false, error: action.payload };
+    case PROJECT_DETAIL_RESET:
       return { project: {} };
     default:
       return state;

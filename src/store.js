@@ -13,7 +13,10 @@ import {
   projectCreateReducer,
   projectUpdateReducer,
   projectDeleteReducer,
+  projectDetailReducer,
 } from './reducers/projectReducers';
+import { allSystemListReducer } from './reducers/systemReducers';
+import { productCreateReducer } from './reducers/productReducer';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -25,6 +28,9 @@ const reducer = combineReducers({
   userProfile: userProfileReducer,
   userProfileUpdate: userProfileUpdateReducer,
   userProfileDelete: userProfileDeleteReducer,
+  projectDetail: projectDetailReducer,
+  allSystemList: allSystemListReducer,
+  productCreate: productCreateReducer,
 });
 
 const middleware = [thunk];

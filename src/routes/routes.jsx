@@ -6,7 +6,8 @@ import Projects from '../pages/user/Projects';
 import Account from '../pages/Account';
 import Users from '../pages/admin/Users';
 import Logs from '../pages/admin/Logs';
-import Welcome from '../pages/Welcome';
+import Dashboard from '../pages/Dashboard';
+import Project from '../pages/user/Project';
 import DashboardLayout from '../layout/DashboardLayout';
 
 const routes = createBrowserRouter([
@@ -14,11 +15,12 @@ const routes = createBrowserRouter([
     path: 'app',
     element: <DashboardLayout />,
     children: [
+      { path: '', element: <Navigate to="/app/dashboard" replace={true} /> },
       { path: 'projects', element: <Projects /> },
       { path: 'account', element: <Account /> },
       { path: 'logs', element: <Logs /> },
       { path: 'users', element: <Users /> },
-      { path: 'welcome', element: <Welcome /> },
+      { path: 'welcome', element: <Dashboard /> },
     ],
   },
   {
@@ -29,6 +31,11 @@ const routes = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: '/', element: <Navigate to="/login" replace={true} /> },
     ],
+  },
+  {
+    path: 'project',
+    element: <DashboardLayout />,
+    children: [{ path: '/project/:id', element: <Project /> }],
   },
 ]);
 

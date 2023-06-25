@@ -23,7 +23,7 @@ const Projects = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const projectList = useSelector((state) => state.projectList);
-  const { loading, error, projects, success } = projectList;
+  const { loading, error, projects } = projectList;
 
   const projectCreate = useSelector((state) => state.projectCreate);
   const {
@@ -54,10 +54,8 @@ const Projects = () => {
   useEffect(() => {
     if (error) {
       handleClick('error', error);
-    } else if (success) {
-      handleClick('success', 'Projects loaded.');
     }
-  }, [error, success]);
+  }, [error]);
 
   useEffect(() => {
     if (createError) {
@@ -104,7 +102,7 @@ const Projects = () => {
           ) : (
             <div className="flex mt-5">
               <span className="text-[1.2rem]">
-                You dont have any project, Click to create one!
+                You dont have any project, click to create one!
               </span>
             </div>
           )}

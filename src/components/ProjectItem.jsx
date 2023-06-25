@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import ArrowDownIcon from '../assets/arrowdown.svg';
 import ArrowUpIcon from '../assets/arrowup.svg';
 import Button from './Button';
@@ -23,6 +24,8 @@ import {
 const ProjectItem = ({ item }) => {
   const [dropdown, setDropdown] = useState(false);
 
+  const status = item.readOnly ? 'Inactive' : 'Active';
+
   const onClickHandler = () => {
     setDropdown(!dropdown);
   };
@@ -35,10 +38,24 @@ const ProjectItem = ({ item }) => {
         }  items-center`}
         onClick={onClickHandler}
       >
-        <div className="flex flex-col">
-          <span className="text-[1.2rem] font-bold">{item.name}</span>
-          <span>No. of Products: {item.products.length}</span>
-          <span>Description: {item.description}</span>
+        <div className="flex flex-row justify-between w-[95%]">
+          <div className="flex flex-col">
+            <span className="text-[1.2rem] font-bold">{item.name}</span>
+            <span>No. of Products: {item.products.length}</span>
+            <span>Description: {item.description}</span>
+          </div>
+          <div className="flex flex-row items-center space-x-3">
+            <div
+              className={`h-4 w-4 ${
+                status === 'Draft'
+                  ? 'bg-yellow-500'
+                  : status === 'Active'
+                  ? 'bg-green-500'
+                  : 'bg-red-500'
+              } rounded-full`}
+            ></div>
+            <span>{status}</span>
+          </div>
         </div>
         <div>
           {dropdown ? (
@@ -56,6 +73,8 @@ const ProjectItem = ({ item }) => {
 const DropdownDetails = ({ item }) => {
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -121,9 +140,10 @@ const DropdownDetails = ({ item }) => {
             handleClick={updateButtonHandler}
           />
           <Button
-            text={'Add Product'}
+            text={'Details'}
             icon={<AddProjectIcon />}
             disable={!item.premium && item.length < 3}
+            handleClick={() => navigate(`/project/${item._id}`)}
           />
         </div>
         <Button
