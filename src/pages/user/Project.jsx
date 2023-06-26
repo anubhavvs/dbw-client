@@ -77,15 +77,17 @@ const Product = () => {
       ) : projectDetailError ? (
         <span>Something went wrong...</span>
       ) : (
-        <div className="p-10 w-full">
-          <div className="flex flex-row w-full justify-between">
+        <div className="lg:p-10 md:p-10 p-5 w-full">
+          <div className="flex lg:flex-row md:flex-row w-full justify-between flex-col space-y-3 md:space-y-0 lg:space-y-0">
             <div className="flex flex-row space-x-5">
               <button onClick={() => navigate(-1)}>
                 <img src={(<BackIcon />).type} className="w-5 h-5" />
               </button>
-              <span className="text-[2rem]">{project.name}</span>
+              <span className="lg:text-[2rem] md:text-[2rem] text-[1.5rem]">
+                {project.name}
+              </span>
             </div>
-            <div className="flex flex-row space-x-5">
+            <div className="flex flex-row space-x-5 justify-end">
               <Button
                 text={'Report'}
                 disable={!isAnyActive}

@@ -39,7 +39,7 @@ const Login = () => {
   });
 
   return (
-    <div className="flex flex-col h-full justify-center w-full items-center">
+    <div className="flex flex-col h-full justify-center w-full items-center bg-[#cdcfd3]">
       <div>
         <Formik
           onSubmit={(values) => {
@@ -58,7 +58,7 @@ const Login = () => {
           }) => (
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col h-full w-full bg-[#cdcfd3] px-10 py-10 space-y-4 rounded-xl"
+              className="flex flex-col h-full w-full px-10 lg:border-2 md:border-2 border-black py-10 space-y-4 rounded-xl"
             >
               <div className="flex flex-col mb-5">
                 <span className="text-[2.7rem]">Log In</span>

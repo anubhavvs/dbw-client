@@ -17,6 +17,7 @@ import {
 } from './reducers/projectReducers';
 import { allSystemListReducer } from './reducers/systemReducers';
 import { productCreateReducer } from './reducers/productReducer';
+import { respoonsiveReducer } from './reducers/responsiveReducer';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   projectDetail: projectDetailReducer,
   allSystemList: allSystemListReducer,
   productCreate: productCreateReducer,
+  responsive: respoonsiveReducer,
 });
 
 const middleware = [thunk];

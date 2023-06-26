@@ -83,15 +83,19 @@ const Projects = () => {
       ) : error ? (
         <span>Something went wrong...</span>
       ) : (
-        <div className="p-10 w-full">
-          <div className="flex flex-row w-full justify-between">
-            <span className="text-[2rem]">Your Projects</span>
-            <Button
-              text={'Create Project'}
-              disable={projects?.length == 1 && !userInfo.premium}
-              icon={<AddIcon />}
-              handleClick={createButtonHandler}
-            />
+        <div className="lg:p-10 md:p-10 p-5 w-full">
+          <div className="flex md:flex-row lg:flex-row flex-col-reverse md:space-y-0 lg:space-y-0 w-full justify-between">
+            <span className="lg:text-[2rem] md:text-[2rem] text-[1.5rem]">
+              Your Projects
+            </span>
+            <div className="flex w-full justify-end md:max-w-fit lg:max-w-fit mb-3 md:mb-0 lg:mb-0">
+              <Button
+                text={'Create Project'}
+                disable={projects?.length == 1 && !userInfo.premium}
+                icon={<AddIcon />}
+                handleClick={createButtonHandler}
+              />
+            </div>
           </div>
           {projects?.length > 0 ? (
             <div className="grid grid-cols-1 mt-5 gap-4 pb-10">

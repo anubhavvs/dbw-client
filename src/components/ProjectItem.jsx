@@ -33,7 +33,7 @@ const ProjectItem = ({ item }) => {
   return (
     <div className="select-none">
       <div
-        className={`flex flex-row justify-between border border-black p-5 cursor-pointer ${
+        className={`flex md:flex-row lg:flex-row flex-col justify-between border border-black lg:p-5 md:p-5 p-2 cursor-pointer ${
           dropdown ? 'rounded-t-lg' : 'rounded-lg'
         }  items-center`}
         onClick={onClickHandler}
@@ -57,7 +57,7 @@ const ProjectItem = ({ item }) => {
             <span>{status}</span>
           </div>
         </div>
-        <div>
+        <div className="mt-3 lg:mt-0 md:mt">
           {dropdown ? (
             <img src={ArrowUpIcon} className="w-5 h-5" />
           ) : (
@@ -131,9 +131,9 @@ const DropdownDetails = ({ item }) => {
   }, [deleteError, deleteSuccess]);
 
   return (
-    <div className="flex flex-col border-b border-l border-r p-5 rounded-b-lg border-black">
+    <div className="flex flex-col border-b border-l border-r lg:p-5 md:p-5 p-3 rounded-b-lg border-black">
       <div className="flex flex-row justify-between">
-        <div className="flex flex-row space-x-5">
+        <div className="flex flex-row lg:space-x-5 md:space-x-5 space-x-2">
           <Button
             text={'Edit'}
             icon={<EditIcon />}
@@ -147,7 +147,7 @@ const DropdownDetails = ({ item }) => {
           />
         </div>
         <Button
-          text={'Delete Project'}
+          text={'Delete'}
           icon={<DeleteIcon />}
           handleClick={deleteButtonHandler}
         />

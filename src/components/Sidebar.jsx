@@ -9,6 +9,7 @@ import UsersLogo from '../assets/users.svg';
 import LogsLogo from '../assets/logs.svg';
 import DashboardIcon from '../assets/dashboard.svg';
 import PremiumIcon from '../assets/premium.svg';
+import CloseIcon from '../assets/close.svg';
 
 const userItems = [
   { id: 1, href: '/app/dashboard', name: 'Dashboard', icon: <DashboardIcon /> },
@@ -21,7 +22,7 @@ const adminItems = [
   { id: 2, href: '/app/logs', name: 'Logs', icon: <LogsLogo /> },
 ];
 
-const SidebarItems = ({ href, name, icon }) => {
+const SidebarItems = ({ href, name, icon, setMobileView = null }) => {
   const location = useLocation();
   const active = href
     ? !!matchPath(
@@ -38,6 +39,9 @@ const SidebarItems = ({ href, name, icon }) => {
         className={`flex flex-row justify-center py-4 cursor-pointer space-x-4 items-center rounded-3xl ${
           active ? 'bg-[#cdcfd3]' : ''
         }`}
+        onClick={() => {
+          setMobileView ? setMobileView(false) : null;
+        }}
       >
         <div>
           <img src={icon} className="w-5 h-5" />
@@ -48,12 +52,12 @@ const SidebarItems = ({ href, name, icon }) => {
   );
 };
 
-const Sidebar = () => {
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+const Sidebar = ({ setMobileView, mobileView }) => {
+  const userProfile = useSelector((state) => state.userProfile);
+  const { user } = userProfile;
   const dispatch = useDispatch();
 
-  const sidebaritems = userInfo?.isAdmin ? adminItems : userItems;
+  const sidebaritems = user?.isAdmin ? adminItems : userItems;
 
   const svgURl = 'https://avatars.dicebear.com/api/avataaars/';
 
@@ -61,23 +65,75 @@ const Sidebar = () => {
     dispatch(logout());
   };
 
+  if (mobileView) {
+    return (
+      <div className="lg:w-[20%] md:w-[20%] lg:flex md:flex flex-col lg:py-10 md:py-10 z-30 p-8 bg-[#E9ECEF] absolute lg:relative md:relative min-w-full min-h-full lg:min-w-min">
+        <div className="flex justify-end mb-5">
+          <button onClick={() => setMobileView(false)}>
+            <img src={CloseIcon} className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="flex flex-col text-center min-h-full justify-between">
+          <div className="flex flex-col">
+            <div className="flex justify-center items-center">
+              <img
+                src={`${svgURl}${user?.name.split(' ')[0]}.svg`}
+                className="w-24 h-24 border rounded-full border-black mb-4"
+              />
+            </div>
+            <span className="text-[1.3rem]">{user?.name}</span>
+            {!user?.isAdmin && (
+              <div className="flex flex-row justify-center space-x-2 mt-1 items-top">
+                {user?.premium ? (
+                  <img src={(<PremiumIcon />).type} className="w-5 h-5" />
+                ) : null}
+                <span>{user?.premium ? 'Premium' : 'Free'}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col lg:px-10 md:px-10 text-center mt-16 space-y-4">
+            {sidebaritems.map((item) => (
+              <SidebarItems
+                key={item.id}
+                name={item.name}
+                icon={item.icon.type}
+                href={item.href}
+                setMobileView={setMobileView}
+              />
+            ))}
+          </div>
+
+          <div className="mt-[80%]">
+            <button
+              className="underline text-lg"
+              onClick={() => logoutHandler()}
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-[20%] flex flex-col py-10 bg-[#E9ECEF]">
+    <div className="lg:w-[20%] md:w-[20%] lg:flex md:flex flex-col py-10 bg-[#E9ECEF] hidden">
       <div className="flex flex-col text-center h-full justify-between">
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
             <img
-              src={`${svgURl}${userInfo?.name.split(' ')[0]}.svg`}
+              src={`${svgURl}${user?.name?.split(' ')[0]}.svg`}
               className="w-24 h-24 border rounded-full border-black mb-4"
             />
           </div>
-          <span className="text-[1.3rem]">{userInfo?.name}</span>
-          {!userInfo?.isAdmin && (
+          <span className="text-[1.3rem]">{user?.name}</span>
+          {!user?.isAdmin && (
             <div className="flex flex-row justify-center space-x-2 mt-1 items-top">
-              {userInfo?.premium ? (
+              {user?.premium ? (
                 <img src={(<PremiumIcon />).type} className="w-5 h-5" />
               ) : null}
-              <span>{userInfo?.premium ? 'Premium' : 'Free'}</span>
+              <span>{user?.premium ? 'Premium' : 'Free'}</span>
             </div>
           )}
         </div>

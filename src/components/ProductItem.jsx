@@ -36,7 +36,7 @@ const ProductItem = ({ item }) => {
   return (
     <div className="select-none">
       <div
-        className={`flex flex-row justify-between border border-black p-5 cursor-pointer ${
+        className={`flex lg:flex-row md:flex-row justify-between border border-black md:p-5 lg:p-5 p-2 space-y-3 md:space-y-0 lg:space-y-0 cursor-pointer flex-col ${
           dropdown ? 'rounded-t-lg' : 'rounded-lg'
         }  items-center`}
         onClick={onClickHandler}
@@ -145,8 +145,8 @@ const DropdownDetails = ({ item }) => {
             onSubmit={handleSubmit}
             className="min-w-full flex flex-col divide-y divide-black"
           >
-            <div className="flex flex-row p-5">
-              <div className="flex h-[380px] w-2/3">
+            <div className="flex md:flex-row lg:flex-row lg:p-5 md:p-5 p-2 flex-col space-y-5 lg:space-y-0 md:space-y-0">
+              <div className="flex h-[380px] md:w-2/3 lg:w-2/3 w-full">
                 {!isLoaded ? (
                   <Loader />
                 ) : (
@@ -179,7 +179,7 @@ const DropdownDetails = ({ item }) => {
                   </GoogleMap>
                 )}
               </div>
-              <div className="flex flex-col w-1/3 pl-5 box-border">
+              <div className="flex flex-col lg:w-1/3 md:w-1/3 md:pl-5 lg:pl-5 pl-0 box-border w-full">
                 <div className="w-full mb-2">
                   <label htmlFor="system">Select an option</label>
                   {!loading && (
@@ -190,7 +190,7 @@ const DropdownDetails = ({ item }) => {
                       key={values.system}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className={`p-2 w-full outline-none text-[1.1rem] border ${
+                      className={`p-2 w-full outline-none lg:text-[1.1rem] md:text-[1.1rem] border ${
                         errors.system
                           ? 'border-red-500 border-2'
                           : 'border-black'
@@ -329,7 +329,6 @@ const DropdownDetails = ({ item }) => {
                         data-tooltip-id="inclination-tooltip"
                         data-tooltip-content={inclinationText}
                         data-tooltip-place="top"
-                        onClick={() => alert(inclinationText)}
                         className="cursor-help relative"
                       >
                         <Tooltip
@@ -398,7 +397,7 @@ const DropdownDetails = ({ item }) => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row p-5 justify-end space-x-5">
+            <div className="flex flex-row lg:p-5 md:p-5 p-3 md:justify-end lg:justify-end lg:space-x-5 md:space-x-5 space-x-4 justify-center">
               <Button
                 type="submit"
                 text={'Save'}

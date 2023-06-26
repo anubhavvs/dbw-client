@@ -111,7 +111,7 @@ const Account = () => {
       ) : profileError ? (
         <span>Something went wrong..</span>
       ) : (
-        <div className="p-10 w-full">
+        <div className="lg:p-10 md:p-10 p-5 w-full">
           <Formik
             onSubmit={(values) => {
               dispatch(
@@ -141,9 +141,14 @@ const Account = () => {
               values,
               dirty,
             }) => (
-              <form className="min-w-full" onSubmit={handleSubmit}>
-                <div className="flex flex-row w-full justify-between">
-                  <span className="text-[2rem]">Your Profile</span>
+              <form
+                className="min-w-full text-[1.2rem]"
+                onSubmit={handleSubmit}
+              >
+                <div className="flex lg:flex-row md:flex-row w-full justify-between flex-col">
+                  <span className="lg:text-[2rem] md:text-[2rem] text-[1.5rem]">
+                    Your Profile
+                  </span>
                   {editMode ? (
                     <div className="flex flex-row space-x-5">
                       <Button
@@ -152,7 +157,6 @@ const Account = () => {
                         handleClick={editModeButtonHandler}
                       />
                       <Button
-                        id="updateButton"
                         text={'Save'}
                         icon={<TickIcon />}
                         color={'#51D88A'}
@@ -161,14 +165,14 @@ const Account = () => {
                       />
                     </div>
                   ) : (
-                    <div className="flex flex-row space-x-5">
+                    <div className="flex flex-row space-x-5 lg:mt-0 md:mt-0 mt-5">
                       <Button
-                        text={'Edit Profile'}
+                        text={'Edit'}
                         icon={<EditIcon />}
                         handleClick={editModeButtonHandler}
                       />
                       <Button
-                        text={'Delete Profile'}
+                        text={'Delete'}
                         icon={<DeleteIcon />}
                         color={'#ef4444'}
                         handleClick={() => setDeleteModal(true)}
@@ -176,21 +180,30 @@ const Account = () => {
                     </div>
                   )}
                 </div>
-                <div className="grid grid-cols-2 mt-10 max-w-xl">
-                  <label htmlFor="status" className="h-16 font-semibold">
+                <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 mt-10 max-w-xl md:gap-0 lg:gap-0 gap-2">
+                  <label
+                    htmlFor="status"
+                    className="md:h-16 lg:h-16 font-semibold"
+                  >
                     Subscription
                   </label>
                   <span className="text-[1.1rem] py-1 px-4" id="status">
                     {user.premium ? 'Premium' : 'Free'}
                   </span>
 
-                  <label htmlFor="date" className="h-16 font-semibold">
+                  <label
+                    htmlFor="date"
+                    className="md:h-16 lg:h-16 font-semibold"
+                  >
                     Member since
                   </label>
                   <span className="text-[1.1rem] py-1 px-4" id="date">
                     {moment(user.createdAt).format('LL')}
                   </span>
-                  <label htmlFor="name" className="h-16 pt-1 font-semibold">
+                  <label
+                    htmlFor="name"
+                    className="md:h-16 lg:h-16 pt-1 font-semibold"
+                  >
                     Name
                   </label>
                   {editMode ? (
@@ -216,7 +229,10 @@ const Account = () => {
                     <span className="text-[1.1rem] py-1 px-4">{user.name}</span>
                   )}
 
-                  <label htmlFor="email" className="h-16 pt-1 font-semibold">
+                  <label
+                    htmlFor="email"
+                    className="md:h-16 lg:h-16 pt-1 font-semibold"
+                  >
                     Email
                   </label>
                   {editMode ? (
@@ -246,7 +262,10 @@ const Account = () => {
                   )}
                   {editMode && (
                     <>
-                      <label htmlFor="password" className="h-16 pt-1">
+                      <label
+                        htmlFor="password"
+                        className="md:h-16 lg:h-16 pt-1 font-semibold"
+                      >
                         Password
                       </label>
                       <div className="flex flex-col">
@@ -267,7 +286,10 @@ const Account = () => {
                           {Boolean(touched.password && errors.password)}
                         </span>
                       </div>
-                      <label htmlFor="password" className="h-16 pt-1">
+                      <label
+                        htmlFor="password"
+                        className="md:h-16 lg:h-16 pt-1 font-semibold"
+                      >
                         Confirm Password
                       </label>
                       <div className="flex flex-col">
