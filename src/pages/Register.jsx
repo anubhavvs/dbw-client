@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -138,12 +138,19 @@ const Register = () => {
                   {Boolean(touched.password && errors.password)}
                 </span>
               </div>
-
+              <div className="flex flex-row">
+                <span>
+                  Existing user? Login{' '}
+                  <Link to={'/login'}>
+                    <u>here</u>.
+                  </Link>
+                </span>
+              </div>
               <div className="w-full text-center">
                 <button
                   disabled={loading}
                   type="submit"
-                  className="py-1 border border-black px-6 mt-5"
+                  className="py-1 border border-black px-6 mt-2"
                 >
                   Register
                 </button>

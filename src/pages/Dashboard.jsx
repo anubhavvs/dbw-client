@@ -125,7 +125,7 @@ const Dashboard = () => {
                   Products
                 </span>
                 <span className="text-[2rem]">
-                  {stats.inactiveProductsCount}
+                  {stats?.inactiveProductsCount}
                 </span>
               </div>
             </div>

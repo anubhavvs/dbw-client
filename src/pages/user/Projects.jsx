@@ -14,6 +14,8 @@ import { PROJECT_CREATE_RESET } from '../../constants/projectConstants';
 
 const Projects = () => {
   const [createButtonModal, setCreateButtonModal] = useState(false);
+  const [filter, setFilter] = useState(false);
+  const [array, setArray] = useState([]);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -31,6 +33,13 @@ const Projects = () => {
     error: createError,
     success: createSuccess,
   } = projectCreate;
+
+  useEffect(() => {
+    if (projects?.length > 0) {
+      setArray(projects.filter((item) => item.readOnly === filter));
+      console.log(filter);
+    }
+  }, [projects, filter]);
 
   const handleClick = (variant, message) => {
     enqueueSnackbar(message, { variant });
@@ -97,13 +106,23 @@ const Projects = () => {
               />
             </div>
           </div>
+          <div className="flex flex-row w-full justify-end">
+            <select
+              className="outline-none"
+              label="filter"
+              onChange={(e) =>
+                setFilter(e.target.value === 'true' ? true : false)
+              }
+            >
+              <option value={false}>Active</option>
+              <option value={true}>Inactive</option>
+            </select>
+          </div>
           {projects?.length > 0 ? (
             <div className="grid grid-cols-1 mt-5 gap-4 pb-10">
-              {projects
-                .sort((a, b) => a.readOnly - b.readOnly)
-                .map((item) => (
-                  <ProjectItem item={item} key={item._id} />
-                ))}
+              {array.map((item) => (
+                <ProjectItem item={item} key={item._id} />
+              ))}
             </div>
           ) : (
             <div className="flex mt-5">
