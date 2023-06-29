@@ -18,6 +18,9 @@ import {
   USER_PROFILE_DELETE_REQUEST,
   USER_PROFILE_DELETE_FAIL,
   USER_PROFILE_DELETE_RESET,
+  USER_STATS_REQUEST,
+  USER_STATS_SUCCESS,
+  USER_STATS_FAIL,
 } from '../constants/userConstants';
 
 export const userLoginReducer = (state = {}, action) => {
@@ -88,6 +91,19 @@ export const userProfileDeleteReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case USER_PROFILE_DELETE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const getUserStatsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case USER_STATS_REQUEST:
+      return { loading: true };
+    case USER_STATS_SUCCESS:
+      return { loading: false, stats: action.payload, success: true };
+    case USER_STATS_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

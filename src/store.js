@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import {
+  getUserStatsReducer,
   userLoginReducer,
   userProfileDeleteReducer,
   userProfileReducer,
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   companyProfileUpdate: companyProfileUpdateReducer,
   companyProfileDelete: companyProfileDeleteReducer,
   companyRegister: companyRegisterReducer,
+  userStats: getUserStatsReducer,
 });
 
 const middleware = [thunk];

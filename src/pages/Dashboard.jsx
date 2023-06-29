@@ -2,9 +2,14 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ProjectIcon from '../assets/project.svg';
+import InactiveProjectIcon from '../assets/inactiveProjects.svg';
+import ProductIcon from '../assets/addProject.svg';
+import InactiveProducts from '../assets/inactiveProducts.svg';
+import DraftProducts from '../assets/draftProduct.svg';
 import { listSystems } from '../actions/systemActions';
 import Loader from '../components/Loader';
 import { useSnackbar } from 'notistack';
+import { getuserStats } from '../actions/userActions';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -21,6 +26,9 @@ const Dashboard = () => {
   const allSystemList = useSelector((state) => state.allSystemList);
   const { loading: systemLoading, systems, error } = allSystemList;
 
+  const userStats = useSelector((state) => state.userStats);
+  const { loading: userStatsLoading, stats, error: userStatsError } = userStats;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +39,12 @@ const Dashboard = () => {
       handleClick('error', profileError);
     }
   }, [error, profileError]);
+
+  useEffect(() => {
+    if (userStatsError) {
+      handleClick('error', userStatsError);
+    }
+  }, [userStatsError]);
 
   useEffect(() => {
     if (userInfo) {
@@ -44,13 +58,14 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(listSystems());
+    dispatch(getuserStats());
   }, [dispatch]);
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
-      {loading || systemLoading ? (
+      {loading || systemLoading || userStatsLoading ? (
         <Loader />
-      ) : error || profileError ? (
+      ) : error || profileError || userStatsError ? (
         <span>Something went wrong..</span>
       ) : (
         <div className="lg:p-10 md:p-10 p-5 w-full">
@@ -67,55 +82,63 @@ const Dashboard = () => {
                   Active <br />
                   Projects
                 </span>
-                <span className="text-[2rem]">{user?.projects?.length}</span>
+                <span className="text-[2rem]">
+                  {stats?.activeProjectsCount}
+                </span>
               </div>
             </div>
             <div className="flex flex-col p-6 shadow-xl shadow-gray-300 space-y-6 border">
               <div className=" bg-blue-300 p-4 rounded-full w-fit h-fit">
-                <img src={ProjectIcon} className="w-5 h-5" />
+                <img src={InactiveProjectIcon} className="w-5 h-5" />
               </div>
               <div className="flex flex-col space-y-2">
                 <span className="leading-tight">
-                  Active <br />
+                  Inactive <br />
                   Projects
                 </span>
-                <span className="text-[2rem]">{user?.projects?.length}</span>
+                <span className="text-[2rem]">
+                  {stats?.inactiveProjectsCount}
+                </span>
               </div>
             </div>
             <div className="flex flex-col p-6 shadow-xl shadow-gray-300 space-y-6 border">
               <div className=" bg-yellow-300 p-4 rounded-full w-fit h-fit">
-                <img src={ProjectIcon} className="w-5 h-5" />
+                <img src={ProductIcon} className="w-5 h-5" />
               </div>
               <div className="flex flex-col space-y-2">
                 <span className="leading-tight">
                   Active <br />
-                  Projects
+                  Products
                 </span>
-                <span className="text-[2rem]">{user?.projects?.length}</span>
+                <span className="text-[2rem]">
+                  {stats?.activeProductsCount}
+                </span>
               </div>
             </div>
             <div className="flex flex-col p-6 shadow-xl shadow-gray-300 space-y-6 border">
               <div className=" bg-red-300 p-4 rounded-full w-fit h-fit">
-                <img src={ProjectIcon} className="w-5 h-5" />
+                <img src={InactiveProducts} className="w-5 h-5" />
               </div>
               <div className="flex flex-col space-y-2">
                 <span className="leading-tight">
-                  Active <br />
-                  Projects
+                  Inactive <br />
+                  Products
                 </span>
-                <span className="text-[2rem]">{user?.projects?.length}</span>
+                <span className="text-[2rem]">
+                  {stats.inactiveProductsCount}
+                </span>
               </div>
             </div>
             <div className="flex flex-col p-6 shadow-xl shadow-gray-300 space-y-6 border">
               <div className=" bg-purple-300 p-4 rounded-full w-fit h-fit">
-                <img src={ProjectIcon} className="w-5 h-5" />
+                <img src={DraftProducts} className="w-5 h-5" />
               </div>
               <div className="flex flex-col space-y-2">
                 <span className="leading-tight">
-                  Active <br />
-                  Projects
+                  Draft <br />
+                  Products
                 </span>
-                <span className="text-[2rem]">{user?.projects?.length}</span>
+                <span className="text-[2rem]">{stats?.draftProductsCount}</span>
               </div>
             </div>
           </div>
@@ -142,7 +165,7 @@ const Dashboard = () => {
                     Efficiency: {item.efficiency}
                   </span>
                   <span className="leading-tight">
-                    Warranty Years:{item.warrantyYears}
+                    Warranty Years: {item.warrantyYears}
                   </span>
                 </div>
               </div>
