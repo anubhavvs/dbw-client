@@ -14,9 +14,14 @@ import {
   projectUpdateReducer,
   projectDeleteReducer,
   projectDetailReducer,
+  projectReportReducer,
 } from './reducers/projectReducers';
 import { allSystemListReducer } from './reducers/systemReducers';
-import { productCreateReducer } from './reducers/productReducer';
+import {
+  productCreateReducer,
+  productDeleteReducer,
+  productUpdateReducer,
+} from './reducers/productReducer';
 import { respoonsiveReducer } from './reducers/responsiveReducer';
 
 const reducer = combineReducers({
@@ -33,6 +38,9 @@ const reducer = combineReducers({
   allSystemList: allSystemListReducer,
   productCreate: productCreateReducer,
   responsive: respoonsiveReducer,
+  productUpdate: productUpdateReducer,
+  productDelete: productDeleteReducer,
+  projectReport: projectReportReducer,
 });
 
 const middleware = [thunk];

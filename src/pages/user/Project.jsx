@@ -3,7 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
-import { getProjectDetail } from '../../actions/projectActions';
+import {
+  getProjectDetail,
+  getprojectReport,
+} from '../../actions/projectActions';
 import { createProduct } from '../../actions/productActions';
 import ProductItem from '../../components/ProductItem';
 import Loader from '../../components/Loader';
@@ -11,7 +14,12 @@ import Button from '../../components/Button';
 import BackIcon from '../../assets/back.svg';
 import AddIcon from '../../assets/add.svg';
 import ReportIcon from '../../assets/report.svg';
-import { PRODUCT_CREATE_RESET } from '../../constants/productConstants';
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_DELETE_RESET,
+  PRODUCT_UPDATE_RESET,
+} from '../../constants/productConstants';
+import { PROJECT_REPORT_RESET } from '../../constants/projectConstants';
 
 const Product = () => {
   const { id } = useParams();
@@ -36,21 +44,72 @@ const Product = () => {
     error: productCreateError,
   } = productCreate;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: productUpdateLoading,
+    success: productUpdateSuccess,
+    error: productUpdateError,
+    project: projectUpdateInfo,
+  } = productUpdate;
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: productDeleteLoading,
+    success: productDeleteSuccess,
+    error: productDeleteError,
+  } = productDelete;
+
+  const projectReport = useSelector((state) => state.projectReport);
+  const {
+    loading: projectReportLoading,
+    success: projectReportSuccess,
+    error: projectReportError,
+  } = projectReport;
+
   const handleClick = (variant, message) => {
     enqueueSnackbar(message, { variant });
   };
 
   const isAnyActive = project?.products?.some(
-    (item) => item['status'] === 'Active'
+    (item) => item['status'] !== 'Draft'
   );
+
+  useEffect(() => {
+    if (projectReportError) {
+      handleClick('error', projectReportError);
+    }
+    if (projectReportSuccess) {
+      handleClick('success', 'Report generated!');
+    }
+    dispatch({ type: PROJECT_REPORT_RESET });
+  }, [projectReportError, projectReportSuccess]);
+
+  useEffect(() => {
+    if (productDeleteError) {
+      handleClick('error', productDeleteError);
+    }
+    if (productDeleteSuccess) {
+      handleClick('success', 'Product deleted.');
+    }
+    dispatch({ type: PRODUCT_DELETE_RESET });
+  }, [productDeleteSuccess, productDeleteError]);
+
+  useEffect(() => {
+    if (productUpdateError) {
+      handleClick('error', productUpdateError);
+    }
+    if (productUpdateSuccess) {
+      handleClick('success', `${projectUpdateInfo.name} updated.`);
+    }
+    dispatch({ type: PRODUCT_UPDATE_RESET });
+  }, [productUpdateSuccess, productUpdateError]);
 
   useEffect(() => {
     if (productCreateError) {
       handleClick('error', productCreateError);
-      console.log(productCreateError);
     }
     if (productCreateSuccess) {
-      handleClick('success', 'New product added to this project.');
+      handleClick('success', 'New product added.');
       dispatch(getProjectDetail(id));
     }
     dispatch({ type: PRODUCT_CREATE_RESET });
@@ -58,12 +117,17 @@ const Product = () => {
 
   useEffect(() => {
     if (userInfo) {
-      // console.log(userInfo); dispatch project details action
       dispatch(getProjectDetail(id));
     } else {
       navigate('/login');
     }
-  }, [navigate, userInfo]);
+  }, [
+    navigate,
+    userInfo,
+    productUpdateSuccess,
+    productDeleteSuccess,
+    projectReportSuccess,
+  ]);
 
   useEffect(() => {
     if (projectDetailError) {
@@ -72,7 +136,11 @@ const Product = () => {
   }, [projectDetailError]);
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
-      {projectDetailLoading || productCreateLoading ? (
+      {projectDetailLoading ||
+      productCreateLoading ||
+      productUpdateLoading ||
+      productDeleteLoading ||
+      projectReportLoading ? (
         <Loader />
       ) : projectDetailError ? (
         <span>Something went wrong...</span>
@@ -90,28 +158,36 @@ const Product = () => {
             <div className="flex flex-row space-x-5 justify-end">
               <Button
                 text={'Report'}
-                disable={!isAnyActive}
+                disable={!isAnyActive || project.readOnly}
                 icon={<ReportIcon />}
                 handleClick={() => {
-                  console.log(id);
+                  dispatch(getprojectReport(project._id));
                 }}
               />
               <Button
                 text={'Add Product'}
-                disable={project?.products?.length == 3 && !userInfo.premium}
+                disable={
+                  (project?.products?.length == 3 && !userInfo.premium) ||
+                  project.readOnly
+                }
                 icon={<AddIcon />}
-                handleClick={() => {
-                  dispatch(createProduct(id));
-                }}
+                handleClick={() => dispatch(createProduct(id))}
               />
             </div>
           </div>
           {project?.products?.length > 0 ? (
-            <div className="grid grid-cols-1 mt-5 gap-4 pb-10">
-              {project.products.map((item) => (
-                <ProductItem key={item._id} item={item} />
-              ))}
-            </div>
+            <>
+              {project?.result && (
+                <div className="border border-black mt-5 justify-center flex rounded-lg">
+                  <img className="lg:w-2/3 md:w-2/3" src={project.result} />
+                </div>
+              )}
+              <div className="grid grid-cols-1 mt-5 gap-4 pb-10">
+                {project.products.map((item) => (
+                  <ProductItem key={item._id} item={item} />
+                ))}
+              </div>
+            </>
           ) : (
             <div className="flex mt-5">
               <span className="text-[1.2rem]">

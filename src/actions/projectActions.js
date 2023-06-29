@@ -15,6 +15,9 @@ import {
   PROJECT_DETAIL_REQUEST,
   PROJECT_DETAIL_SUCCESS,
   PROJECT_DETAIL_FAIL,
+  PROJECT_REPORT_REQUEST,
+  PROJECT_REPORT_SUCCESS,
+  PROJECT_REPORT_FAIL,
 } from '../constants/projectConstants';
 import { URL } from '../config';
 
@@ -177,6 +180,37 @@ export const getProjectDetail = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PROJECT_DETAIL_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getprojectReport = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PROJECT_REPORT_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(`${URL}/project/${id}`, {}, config);
+
+    dispatch({
+      type: PROJECT_REPORT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PROJECT_REPORT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

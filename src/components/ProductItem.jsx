@@ -19,11 +19,12 @@ import {
 import Loader from './Loader';
 import Button from './Button';
 import { listSystems } from '../actions/systemActions';
+import { deleteProduct, updateProduct } from '../actions/productActions';
 
 const ProductItem = ({ item }) => {
   const status = item.status;
   const dispatch = useDispatch();
-  const [dropdown, setDropdown] = useState(status === 'Draft' ? true : false);
+  const [dropdown, setDropdown] = useState(true);
 
   const onClickHandler = () => {
     setDropdown(!dropdown);
@@ -73,6 +74,7 @@ const libraries = ['places'];
 
 const DropdownDetails = ({ item }) => {
   const inputRef = useRef();
+  const dispatch = useDispatch();
   const [latitude, setLatitude] = useState(item.location.coordinates[1]);
   const [longitude, setLongitude] = useState(item.location.coordinates[0]);
 
@@ -88,6 +90,9 @@ const DropdownDetails = ({ item }) => {
 
   const allSystemList = useSelector((state) => state.allSystemList);
   const { loading, systems, error } = allSystemList;
+
+  const projectDetail = useSelector((state) => state.projectDetail);
+  const { project } = projectDetail;
 
   useEffect(() => {
     console.log(loadError);
@@ -119,9 +124,18 @@ const DropdownDetails = ({ item }) => {
     <div className="flex flex-col border-b border-l border-r rounded-b-lg border-black">
       <Formik
         onSubmit={(values) => {
-          // dispatch(createProject(values.name, values.description));
-          // setCreateButtonModal(false);
-          console.log(values);
+          dispatch(
+            updateProduct({
+              id: item._id,
+              system: values.system,
+              area: values.area,
+              azimuth: values.azimuth,
+              inclination: values.inclination,
+              latitude: values.latitude,
+              longitude: values.longitude,
+              systemLoss: values.systemLoss,
+            })
+          );
         }}
         validationSchema={validationSchema}
         initialValues={{
@@ -131,6 +145,7 @@ const DropdownDetails = ({ item }) => {
           inclination: item.inclination,
           area: item.area,
           systemLoss: item.systemLoss,
+          system: item?.system,
         }}
       >
         {({
@@ -140,6 +155,7 @@ const DropdownDetails = ({ item }) => {
           handleSubmit,
           values,
           setFieldValue,
+          dirty,
         }) => (
           <form
             onSubmit={handleSubmit}
@@ -162,12 +178,15 @@ const DropdownDetails = ({ item }) => {
                       streetViewControl: false,
                       mapTypeControl: false,
                       clickableIcons: false,
+                      draggable: !project.readOnly,
                     }}
                     onClick={(e) => {
-                      setLatitude(e.latLng.lat());
-                      setFieldValue('latitude', e.latLng.lat());
-                      setLongitude(e.latLng.lng());
-                      setFieldValue('longitude', e.latLng.lng());
+                      if (!project.readOnly) {
+                        setLatitude(e.latLng.lat());
+                        setFieldValue('latitude', e.latLng.lat());
+                        setLongitude(e.latLng.lng());
+                        setFieldValue('longitude', e.latLng.lng());
+                      }
                     }}
                   >
                     <Marker
@@ -186,6 +205,7 @@ const DropdownDetails = ({ item }) => {
                     <select
                       id="system"
                       name="system"
+                      disabled={project.readOnly}
                       value={values.system}
                       key={values.system}
                       onChange={handleChange}
@@ -196,16 +216,36 @@ const DropdownDetails = ({ item }) => {
                           : 'border-black'
                       }`}
                     >
-                      <option>Select a system</option>
-                      {systems.map((item) => (
+                      {item.system ? (
                         <option
-                          label={item.name}
-                          value={item._id}
-                          key={item._id}
+                          label={
+                            systems.find((system) => system._id === item.system)
+                              ?.name
+                          }
+                          value={
+                            systems.find((system) => system._id === item.system)
+                              ?._id
+                          }
                         >
-                          {item.name}
+                          {
+                            systems.find((system) => system._id === item.system)
+                              ?.name
+                          }
                         </option>
-                      ))}
+                      ) : (
+                        <option value="">Select a system</option>
+                      )}
+                      {systems
+                        .filter((system) => system._id !== item.system)
+                        .map((item) => (
+                          <option
+                            label={item.name}
+                            value={item._id}
+                            key={item._id}
+                          >
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   )}
                 </div>
@@ -237,6 +277,7 @@ const DropdownDetails = ({ item }) => {
                           name="address"
                           className="p-2 w-full outline-none text-[1.1rem] border border-black"
                           placeholder="Find a location"
+                          disabled={project.readOnly}
                         />
                       </StandaloneSearchBox>
                     </>
@@ -250,6 +291,7 @@ const DropdownDetails = ({ item }) => {
                       placeholder="Latitute"
                       name="latitute"
                       onBlur={handleBlur}
+                      disabled={project.readOnly}
                       onChange={(e) => {
                         setLatitude(parseFloat(e.target.value));
                         setFieldValue('latitude', parseFloat(e.target.value));
@@ -270,6 +312,7 @@ const DropdownDetails = ({ item }) => {
                       label="Longitude"
                       placeholder="Longitude"
                       name="longitude"
+                      disabled={project.readOnly}
                       onBlur={handleBlur}
                       onChange={(e) => {
                         setLongitude(parseFloat(e.target.value));
@@ -310,6 +353,7 @@ const DropdownDetails = ({ item }) => {
                       label="Azimuth"
                       placeholder="Azimuth"
                       name="azimuth"
+                      disabled={project.readOnly}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.azimuth}
@@ -346,6 +390,7 @@ const DropdownDetails = ({ item }) => {
                       label="Inclination"
                       placeholder="inclination"
                       name="inclination"
+                      disabled={project.readOnly}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.inclination}
@@ -366,6 +411,7 @@ const DropdownDetails = ({ item }) => {
                       label="Area"
                       placeholder="Area"
                       name="area"
+                      disabled={project.readOnly}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.area}
@@ -382,6 +428,7 @@ const DropdownDetails = ({ item }) => {
                       label="Loss"
                       placeholder="Loss"
                       name="systemLoss"
+                      disabled={project.readOnly}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.systemLoss}
@@ -401,21 +448,31 @@ const DropdownDetails = ({ item }) => {
               <Button
                 type="submit"
                 text={'Save'}
+                disable={!dirty || project.readOnly}
                 icon={<SaveIcon />}
                 color={'#22c55e'}
               />
               <Button
                 type="button"
                 text={'Delete'}
+                disable={project.readOnly}
                 icon={<DeleteIcon />}
                 color={'#ef4444'}
+                handleClick={() =>
+                  dispatch(
+                    deleteProduct({
+                      projectID: project._id,
+                      productID: item._id,
+                    })
+                  )
+                }
               />
               <Button
                 type="button"
                 text={'Sync'}
                 icon={<SyncIcon />}
                 color={'#60a5fa'}
-                disable={item.premium}
+                disable={item.premium || project.readOnly}
               />
             </div>
           </form>
