@@ -37,7 +37,6 @@ const Projects = () => {
   useEffect(() => {
     if (projects?.length > 0) {
       setArray(projects.filter((item) => item.readOnly === filter));
-      console.log(filter);
     }
   }, [projects, filter]);
 
