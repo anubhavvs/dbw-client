@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { register } from '../actions/userActions';
+import { register } from '../../actions/companyActions';
 
-const Register = () => {
+const CompanyRegister = () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -22,33 +22,41 @@ const Register = () => {
   const companyLogin = useSelector((state) => state.companyLogin);
   const { companyInfo } = companyLogin;
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { userInfo: userRegisterInfo, loading, success, error } = userRegister;
+  const companyRegister = useSelector((state) => state.companyRegister);
+  const {
+    userInfo: companyRegisterInfo,
+    loading,
+    success,
+    error,
+  } = companyRegister;
 
   useEffect(() => {
-    if (userInfo || userRegisterInfo) {
+    if (userInfo || companyRegisterInfo) {
       handleClick('success', 'Logged in successfully.');
-      navigate('/app/dashboard');
+      navigate('/app/systems');
     }
-  }, [userInfo, navigate, userRegisterInfo]);
+  }, [userInfo, navigate, companyRegisterInfo]);
 
   useEffect(() => {
     if (error) {
       handleClick('error', error);
     }
     if (success) {
-      handleClick('success', 'You are registered!');
+      handleClick('success', 'Company registered!');
     }
   }, [error, success]);
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string()
-      .email('Must be a valid email')
-      .required('Email is required'),
+    name: Yup.string()
+      .required('Name is required')
+      .max(30, 'Cannot be more than 20 charecters'),
+    email: Yup.string().email().required('Email is required'),
+    website: Yup.string().required('Website is required'),
+    location: Yup.string().required('Location is required'),
+    description: Yup.string().required('Description is required'),
     password: Yup.string()
-      .required('Password is required')
-      .min(6, 'Cannot be less than 6 charecters'),
+      .min(8, 'Password too short')
+      .required('Password is required'),
   });
 
   useEffect(() => {
@@ -61,10 +69,26 @@ const Register = () => {
       <div>
         <Formik
           onSubmit={(values) => {
-            dispatch(register(values.name, values.email, values.password));
+            dispatch(
+              register(
+                values.name,
+                values.email,
+                values.password,
+                values.website,
+                values.location,
+                values.description
+              )
+            );
           }}
           validationSchema={validationSchema}
-          initialValues={{ email: '', password: '', name: '' }}
+          initialValues={{
+            email: '',
+            password: '',
+            name: '',
+            website: '',
+            location: '',
+            description: '',
+          }}
         >
           {({
             errors,
@@ -121,6 +145,60 @@ const Register = () => {
               </div>
               <div className="flex flex-col">
                 <input
+                  label="Image"
+                  name="website"
+                  placeholder="Image"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.website}
+                  autoComplete="off"
+                  className="py-2 text-[1.1rem] outline-none px-2"
+                />
+                <span className="text-red-500 h-[8px]">
+                  {touched.website && errors.website}
+                </span>
+                <span className="text-red-500">
+                  {Boolean(touched.website && errors.website)}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <input
+                  label="Location"
+                  name="location"
+                  placeholder="Location"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.location}
+                  autoComplete="off"
+                  className="py-2 text-[1.1rem] outline-none px-2"
+                />
+                <span className="text-red-500 h-[8px]">
+                  {touched.location && errors.location}
+                </span>
+                <span className="text-red-500">
+                  {Boolean(touched.location && errors.location)}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <input
+                  label="Description"
+                  name="description"
+                  placeholder="Description"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.description}
+                  autoComplete="off"
+                  className="py-2 text-[1.1rem] outline-none px-2"
+                />
+                <span className="text-red-500 h-[8px]">
+                  {touched.description && errors.description}
+                </span>
+                <span className="text-red-500">
+                  {Boolean(touched.description && errors.description)}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <input
                   label="Password"
                   name="password"
                   placeholder="Password"
@@ -156,4 +234,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default CompanyRegister;

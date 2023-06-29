@@ -15,6 +15,9 @@ import {
   COMPANY_PROFILE_UPDATE_REQUEST,
   COMPANY_PROFILE_UPDATE_RESET,
   COMPANY_PROFILE_UPDATE_SUCCESS,
+  COMPANY_REGISTER_FAIL,
+  COMPANY_REGISTER_REQUEST,
+  COMPANY_REGISTER_SUCCESS,
   COMPANY_SYSTEMS_FAIL,
   COMPANY_SYSTEMS_REQUEST,
   COMPANY_SYSTEMS_RESET,
@@ -31,6 +34,19 @@ export const companyLoginReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case COMPANY_LOGOUT:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const companyRegisterReducer = (state = {}, action) => {
+  switch (action.type) {
+    case COMPANY_REGISTER_REQUEST:
+      return { loading: true };
+    case COMPANY_REGISTER_SUCCESS:
+      return { loading: false, companyInfo: action.payload, success: true };
+    case COMPANY_REGISTER_FAIL:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

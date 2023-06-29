@@ -33,6 +33,7 @@ import {
   companyProfileDeleteReducer,
   companyProfileReducer,
   companyProfileUpdateReducer,
+  companyRegisterReducer,
   companySystemsReducer,
 } from './reducers/companyReducers';
 
@@ -61,6 +62,7 @@ const reducer = combineReducers({
   systemDelete: systemDeleteReducer,
   companyProfileUpdate: companyProfileUpdateReducer,
   companyProfileDelete: companyProfileDeleteReducer,
+  companyRegister: companyRegisterReducer,
 });
 
 const middleware = [thunk];

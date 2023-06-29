@@ -12,6 +12,7 @@ import CompanyLogin from '../pages/company/CompanyLogin';
 import DashboardLayout from '../layout/DashboardLayout';
 import Systems from '../pages/company/Systems';
 import CompanyAccount from '../pages/company/CompanyAccount';
+import CompanyRegister from '../pages/company/CompanyRegister';
 
 const routes = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ const routes = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: 'companyLogin', element: <CompanyLogin /> },
       { path: '/', element: <Navigate to="/login" replace={true} /> },
+      { path: 'companyRegister', element: <CompanyRegister /> },
     ],
   },
   {

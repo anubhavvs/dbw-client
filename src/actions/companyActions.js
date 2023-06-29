@@ -13,6 +13,9 @@ import {
   COMPANY_PROFILE_UPDATE_FAIL,
   COMPANY_PROFILE_UPDATE_REQUEST,
   COMPANY_PROFILE_UPDATE_SUCCESS,
+  COMPANY_REGISTER_FAIL,
+  COMPANY_REGISTER_REQUEST,
+  COMPANY_REGISTER_SUCCESS,
   COMPANY_SYSTEMS_FAIL,
   COMPANY_SYSTEMS_REQUEST,
   COMPANY_SYSTEMS_SUCCESS,
@@ -52,6 +55,48 @@ export const login = (email, password) => async (dispatch) => {
     });
   }
 };
+
+export const register =
+  (name, email, password, website, location, description) =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: COMPANY_REGISTER_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const { data } = await axios.post(
+        `${URL}/company/register`,
+        { name, email, password, website, location, description },
+        config
+      );
+
+      dispatch({
+        type: COMPANY_REGISTER_SUCCESS,
+        payload: data,
+      });
+
+      dispatch({
+        type: COMPANY_LOGIN_SUCCESS,
+        payload: data,
+      });
+
+      localStorage.setItem('companyInfo', JSON.stringify(data));
+    } catch (error) {
+      dispatch({
+        type: COMPANY_REGISTER_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const getCompanyProfile = () => async (dispatch, getState) => {
   try {

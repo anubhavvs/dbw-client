@@ -86,7 +86,7 @@ export const register = (name, email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      '/api/users',
+      `${URL}/users/`,
       { name, email, password },
       config
     );
