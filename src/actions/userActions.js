@@ -17,9 +17,15 @@ import {
   USER_PROFILE_DELETE_REQUEST,
   USER_PROFILE_DELETE_SUCCESS,
   USER_PROFILE_DELETE_FAIL,
+  USER_PROFILE_RESET,
 } from '../constants/userConstants';
 
 import { PROJECT_LIST_RESET } from '../constants/projectConstants';
+import {
+  COMPANY_LOGOUT,
+  COMPANY_PROFILE_RESET,
+  COMPANY_SYSTEMS_RESET,
+} from '../constants/companyConstants';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -58,8 +64,13 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo');
+  localStorage.removeItem('companyInfo');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_PROFILE_RESET });
+  dispatch({ type: COMPANY_LOGOUT });
   dispatch({ type: PROJECT_LIST_RESET });
+  dispatch({ type: COMPANY_PROFILE_RESET });
+  dispatch({ type: COMPANY_SYSTEMS_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {

@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { login } from '../actions/userActions';
+import { login } from '../../actions/companyActions';
 
-const Login = () => {
+const CompanyLogin = () => {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -15,12 +15,16 @@ const Login = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
 
+  const companyLogin = useSelector((state) => state.companyLogin);
+  const {
+    loading: companyLoginLoading,
+    error: companyLoginError,
+    companyInfo,
+  } = companyLogin;
+
   const handleClick = (variant, message) => {
     enqueueSnackbar(message, { variant });
   };
-
-  const companyLogin = useSelector((state) => state.companyLogin);
-  const { companyInfo } = companyLogin;
 
   useEffect(() => {
     if (userInfo) {
@@ -34,9 +38,13 @@ const Login = () => {
 
   useEffect(() => {
     if (companyInfo) {
+      handleClick('success', 'Logged in successfully.');
       navigate('/app/systems');
     }
-  }, [companyInfo, navigate]);
+    if (companyLoginError) {
+      handleClick('error', error);
+    }
+  }, [companyInfo, companyLoginError]);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -46,7 +54,6 @@ const Login = () => {
       .required('Password is required')
       .min(6, 'Cannot be less than 6 charecters'),
   });
-
   return (
     <div className="flex flex-col h-full justify-center w-full items-center bg-[#cdcfd3]">
       <div>
@@ -70,8 +77,8 @@ const Login = () => {
               className="flex flex-col h-full w-full px-10 lg:border-2 md:border-2 border-black py-10 space-y-4 rounded-xl"
             >
               <div className="flex flex-col mb-5">
-                <span className="text-[2.7rem]">Log In</span>
-                <p>Log in with your email and password.</p>
+                <span className="text-[2.7rem]">Company Log In</span>
+                <p>Log in with your company email and password.</p>
               </div>
               <div className="flex flex-col justify-center">
                 <input
@@ -114,7 +121,7 @@ const Login = () => {
 
               <div className="w-full text-center">
                 <button
-                  disabled={loading}
+                  disabled={loading || companyLoginLoading}
                   type="submit"
                   className="py-1 border border-black px-6 mt-5"
                 >
@@ -129,4 +136,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default CompanyLogin;

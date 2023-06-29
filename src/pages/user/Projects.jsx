@@ -59,7 +59,7 @@ const Projects = () => {
 
   useEffect(() => {
     if (createError) {
-      handleClick('success', createError);
+      handleClick('error', createError);
     } else if (createSuccess) {
       dispatch(listProjects());
       handleClick('success', 'New project created.');

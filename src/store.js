@@ -16,13 +16,25 @@ import {
   projectDetailReducer,
   projectReportReducer,
 } from './reducers/projectReducers';
-import { allSystemListReducer } from './reducers/systemReducers';
+import {
+  allSystemListReducer,
+  systemCreateReducer,
+  systemDeleteReducer,
+  systemUpdateReducer,
+} from './reducers/systemReducers';
 import {
   productCreateReducer,
   productDeleteReducer,
   productUpdateReducer,
 } from './reducers/productReducer';
 import { respoonsiveReducer } from './reducers/responsiveReducer';
+import {
+  companyLoginReducer,
+  companyProfileDeleteReducer,
+  companyProfileReducer,
+  companyProfileUpdateReducer,
+  companySystemsReducer,
+} from './reducers/companyReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -41,6 +53,14 @@ const reducer = combineReducers({
   productUpdate: productUpdateReducer,
   productDelete: productDeleteReducer,
   projectReport: projectReportReducer,
+  companyLogin: companyLoginReducer,
+  companyProfile: companyProfileReducer,
+  companySystems: companySystemsReducer,
+  systemCreate: systemCreateReducer,
+  systemUpdate: systemUpdateReducer,
+  systemDelete: systemDeleteReducer,
+  companyProfileUpdate: companyProfileUpdateReducer,
+  companyProfileDelete: companyProfileDeleteReducer,
 });
 
 const middleware = [thunk];
@@ -49,8 +69,13 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null;
 
+const companyInfoFromStorage = localStorage.getItem('companyInfo')
+  ? JSON.parse(localStorage.getItem('companyInfo'))
+  : null;
+
 const initialState = {
   userLogin: { userInfo: userInfoFromStorage },
+  companyLogin: { companyInfo: companyInfoFromStorage },
 };
 
 const store = createStore(

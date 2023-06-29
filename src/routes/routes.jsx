@@ -8,7 +8,10 @@ import Users from '../pages/admin/Users';
 import Logs from '../pages/admin/Logs';
 import Dashboard from '../pages/Dashboard';
 import Project from '../pages/user/Project';
+import CompanyLogin from '../pages/company/CompanyLogin';
 import DashboardLayout from '../layout/DashboardLayout';
+import Systems from '../pages/company/Systems';
+import CompanyAccount from '../pages/company/CompanyAccount';
 
 const routes = createBrowserRouter([
   {
@@ -21,6 +24,8 @@ const routes = createBrowserRouter([
       { path: 'logs', element: <Logs /> },
       { path: 'users', element: <Users /> },
       { path: 'dashboard', element: <Dashboard /> },
+      { path: 'systems', element: <Systems /> },
+      { path: 'companyAccount', element: <CompanyAccount /> },
     ],
   },
   {
@@ -29,6 +34,7 @@ const routes = createBrowserRouter([
     children: [
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
+      { path: 'companyLogin', element: <CompanyLogin /> },
       { path: '/', element: <Navigate to="/login" replace={true} /> },
     ],
   },

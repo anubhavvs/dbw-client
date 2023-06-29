@@ -40,7 +40,7 @@ const Dashboard = () => {
     } else {
       navigate('/login', { replace: true });
     }
-  }, [navigate, userInfo]);
+  }, [navigate, user?.isAdmin, userInfo]);
 
   useEffect(() => {
     dispatch(listSystems());

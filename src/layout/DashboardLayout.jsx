@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
@@ -6,21 +6,30 @@ import Sidebar from '../components/Sidebar';
 import { SCREEN_SIZE } from '../constants/responsiveConstants';
 import Header from '../components/Header';
 import { getUserProfile } from '../actions/userActions';
+import { getCompanyProfile } from '../actions/companyActions';
 
 const DashboardLayout = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [mobileView, setMobileView] = useState(false);
 
-  const { enqueueSnackbar } = useSnackbar();
-  const handleClick = (variant, message) => {
-    enqueueSnackbar(message, { variant });
-  };
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
-  const userProfile = useSelector((state) => state.userProfile);
-  const { error } = userProfile;
+  const companyLogin = useSelector((state) => state.companyLogin);
+  const { companyInfo } = companyLogin;
 
   useEffect(() => {
-    dispatch(getUserProfile());
+    if (!companyInfo && !userInfo) {
+      navigate('/login');
+    } else if (userInfo) {
+      dispatch(getUserProfile());
+    } else if (companyInfo) {
+      dispatch(getCompanyProfile());
+    }
+  }, [userInfo, companyInfo, navigate, dispatch]);
+
+  useEffect(() => {
     const onResize = () => {
       dispatch({ type: SCREEN_SIZE, payload: window.innerWidth });
     };
@@ -31,12 +40,6 @@ const DashboardLayout = () => {
       window.removeEventListener('resize', onResize);
     };
   }, [dispatch]);
-
-  useEffect(() => {
-    if (error) {
-      handleClick('error', error);
-    }
-  }, [error]);
 
   return (
     <div className="flex-grow h-full font-mono">
