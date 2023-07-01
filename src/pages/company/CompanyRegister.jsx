@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { register } from '../../actions/companyActions';
+import { Helmet } from 'react-helmet';
 
 const CompanyRegister = () => {
   const dispatch = useDispatch();
@@ -102,6 +103,9 @@ const CompanyRegister = () => {
               onSubmit={handleSubmit}
               className="flex flex-col h-full w-full px-10 lg:border-2 md:border-2 border-black py-10 space-y-4 rounded-xl"
             >
+              <Helmet>
+                <title>Company Register</title>
+              </Helmet>
               <div className="flex flex-col mb-5">
                 <span className="text-[2.7rem]">Register</span>
                 <p>Regsiter with your name, email and password.</p>

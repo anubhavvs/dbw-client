@@ -20,6 +20,7 @@ import {
   PRODUCT_UPDATE_RESET,
 } from '../../constants/productConstants';
 import { PROJECT_REPORT_RESET } from '../../constants/projectConstants';
+import { Helmet } from 'react-helmet';
 
 const Product = () => {
   const { id } = useParams();
@@ -136,6 +137,9 @@ const Product = () => {
   }, [projectDetailError]);
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Products</title>
+      </Helmet>
       {projectDetailLoading ||
       productCreateLoading ||
       productUpdateLoading ||

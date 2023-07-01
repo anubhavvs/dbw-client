@@ -21,6 +21,7 @@ import {
   COMPANY_PROFILE_DELETE_RESET,
   COMPANY_PROFILE_UPDATE_RESET,
 } from '../../constants/companyConstants';
+import { Helmet } from 'react-helmet';
 
 const CompanyAccount = () => {
   const [editMode, setEditMode] = useState(false);
@@ -125,6 +126,9 @@ const CompanyAccount = () => {
   });
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Account</title>
+      </Helmet>
       {companyProfileLoading || companyProfileUpdateLoading ? (
         <Loader />
       ) : companyProfileError ? (

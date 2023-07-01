@@ -11,6 +11,7 @@ import Button from '../../components/Button';
 import AddIcon from '../../assets/add.svg';
 import CloseIcon from '../../assets/close.svg';
 import { PROJECT_CREATE_RESET } from '../../constants/projectConstants';
+import { Helmet } from 'react-helmet';
 
 const Projects = () => {
   const [createButtonModal, setCreateButtonModal] = useState(false);
@@ -86,6 +87,9 @@ const Projects = () => {
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Projects</title>
+      </Helmet>
       {loading || createLoading ? (
         <Loader />
       ) : error ? (

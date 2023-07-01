@@ -21,6 +21,7 @@ import {
   USER_PROFILE_DELETE_RESET,
   USER_PROFILE_UPDATE_RESET,
 } from '../constants/userConstants';
+import { Helmet } from 'react-helmet';
 
 const Account = () => {
   const [editMode, setEditMode] = useState(false);
@@ -106,6 +107,9 @@ const Account = () => {
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Account</title>
+      </Helmet>
       {profileLoading || profileUpdateLoading ? (
         <Loader />
       ) : profileError ? (

@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { login } from '../../actions/companyActions';
+import { Helmet } from 'react-helmet';
 
 const CompanyLogin = () => {
   const dispatch = useDispatch();
@@ -56,6 +57,9 @@ const CompanyLogin = () => {
   });
   return (
     <div className="flex flex-col h-full justify-center w-full items-center bg-[#cdcfd3]">
+      <Helmet>
+        <title>Company Login</title>
+      </Helmet>
       <div>
         <Formik
           onSubmit={(values) => {

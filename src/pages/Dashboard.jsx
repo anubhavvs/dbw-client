@@ -10,6 +10,7 @@ import { listSystems } from '../actions/systemActions';
 import Loader from '../components/Loader';
 import { useSnackbar } from 'notistack';
 import { getuserStats } from '../actions/userActions';
+import { Helmet } from 'react-helmet';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -63,6 +64,9 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       {loading || systemLoading || userStatsLoading ? (
         <Loader />
       ) : error || profileError || userStatsError ? (

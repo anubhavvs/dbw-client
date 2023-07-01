@@ -12,6 +12,7 @@ import { useSnackbar } from 'notistack';
 import SystemItem from '../../components/SystemItem';
 import { createSystems } from '../../actions/systemActions';
 import { SYSTEM_CREATE_RESET } from '../../constants/systemConstants';
+import { Helmet } from 'react-helmet';
 
 const Systems = () => {
   const [createButtonModal, setCreateButtonModal] = useState(false);
@@ -93,6 +94,9 @@ const Systems = () => {
 
   return (
     <div className="flex flex-grow h-full w-full overflow-y-scroll">
+      <Helmet>
+        <title>Systems</title>
+      </Helmet>
       {loading || systemCreateLoading ? (
         <Loader />
       ) : error ? (
