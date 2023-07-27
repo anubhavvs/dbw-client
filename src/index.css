@@ -31,3 +31,9 @@ a {
   height: 100%;
   width: 100%;
 }
+
+.active_pagination {
+  font-weight: bolder;
+  border: 1px solid #000;
+  padding: 0px 5px;
+}

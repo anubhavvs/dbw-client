@@ -37,6 +37,7 @@ import {
   companyRegisterReducer,
   companySystemsReducer,
 } from './reducers/companyReducers';
+import { logsReducer } from './reducers/adminReducers';
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -65,6 +66,7 @@ const reducer = combineReducers({
   companyProfileDelete: companyProfileDeleteReducer,
   companyRegister: companyRegisterReducer,
   userStats: getUserStatsReducer,
+  adminLogs: logsReducer,
 });
 
 const middleware = [thunk];
