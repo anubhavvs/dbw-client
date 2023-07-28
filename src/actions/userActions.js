@@ -29,7 +29,10 @@ import {
   COMPANY_PROFILE_RESET,
   COMPANY_SYSTEMS_RESET,
 } from '../constants/companyConstants';
-import { ADMIN_LOGS_RESET } from '../constants/adminConstants';
+import {
+  ADMIN_LOGS_RESET,
+  ALL_USERS_LIST_RESET,
+} from '../constants/adminConstants';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -76,6 +79,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: COMPANY_PROFILE_RESET });
   dispatch({ type: COMPANY_SYSTEMS_RESET });
   dispatch({ type: ADMIN_LOGS_RESET });
+  dispatch({ type: ALL_USERS_LIST_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
