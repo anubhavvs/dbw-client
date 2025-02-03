@@ -87,7 +87,7 @@ const Sidebar = ({ setMobileView, mobileView }) => {
     }
   }, [userLoading, companyLoading, user, company]);
 
-  const svgURl = 'https://avatars.dicebear.com/api/avataaars/';
+  const svgURl = 'https://api.dicebear.com/9.x/avataaars/svg?seed=';
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -107,7 +107,7 @@ const Sidebar = ({ setMobileView, mobileView }) => {
               <>
                 <div className="flex justify-center items-center">
                   <img
-                    src={`${svgURl}${user?.name.split(' ')[0]}.svg`}
+                    src={`${svgURl}${user?.name.split(' ')[0]}`}
                     className="w-24 h-24 border rounded-full border-black mb-4"
                   />
                 </div>
@@ -169,7 +169,7 @@ const Sidebar = ({ setMobileView, mobileView }) => {
             <>
               <div className="flex justify-center items-center">
                 <img
-                  src={`${svgURl}${user?.name?.split(' ')[0]}.svg`}
+                  src={`${svgURl}${user?.name?.split(' ')[0]}`}
                   className="w-24 h-24 border rounded-full border-black mb-4"
                 />
               </div>
